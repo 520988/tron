@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>能量闪租控制台</title>
+    <style>
+        :root { --bg: #f8f9fa; --text: #2d3436; --accent: #6c5ce7; --warn: #e17055; }
+        
+        body { 
+            background: var(--bg); 
+            color: var(--text); 
+            font-family: 'Courier New', monospace; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            margin: 0; 
+            padding: 15px;
+        }
+
+        .container { 
+            background: #fff; 
+            border: 2px solid var(--text); 
+            padding: 25px; 
+            width: 100%;
+            max-width: 420px; /* PC端限制宽度 */
+            box-shadow: 10px 10px 0 var(--text); 
+            box-sizing: border-box;
+        }
+
+        .header { 
+            border-bottom: 2px solid var(--text); 
+            margin-bottom: 20px; 
+            font-size: 1.3rem; 
+            font-weight: bold; 
+            padding-bottom: 8px;
+            text-align: center;
+        }
+
+        .price-card { 
+            background: #f1f2f6; 
+            border: 1px solid #dfe6e9; 
+            padding: 15px; 
+            margin-bottom: 15px; 
+        }
+
+        .price-row { 
+            margin: 10px 0; 
+            font-size: 0.95rem; 
+            font-weight: bold; 
+            display: flex;
+            align-items: center;
+        }
+
+        .label { 
+            background: var(--text); 
+            color: #fff; 
+            padding: 2px 8px; 
+            font-size: 0.75rem; 
+            margin-right: 10px; 
+            flex-shrink: 0;
+        }
+
+        .warn-box { 
+            border-left: 4px solid var(--warn); 
+            padding-left: 15px; 
+            font-size: 0.85rem; 
+            color: #636e72; 
+            line-height: 1.7; 
+            margin: 20px 0; 
+        }
+
+        .address-box { text-align: center; margin: 25px 0; }
+
+        .address-display { 
+            border: 2px solid var(--text); 
+            padding: 12px; 
+            word-break: break-all; 
+            font-size: 0.9rem; 
+            cursor: pointer; 
+            background: #fafafa; 
+            margin-bottom: 15px; 
+            transition: transform 0.1s;
+        }
+
+        .address-display:active {
+            transform: translate(2px, 2px);
+            background: #f1f2f6;
+        }
+
+        .qr-wrapper img { 
+            width: 160px; 
+            height: 160px; 
+            border: 1px solid var(--text); 
+            padding: 8px; 
+            background: #fff;
+        }
+
+        .tg-info { 
+            background: #eef2ff; 
+            border: 1px dashed var(--accent); 
+            padding: 15px; 
+            text-align: center; 
+            font-size: 0.85rem; 
+            color: var(--accent); 
+            line-height: 1.6;
+        }
+
+        .tg-info a { 
+            color: var(--accent); 
+            font-weight: bold; 
+            text-decoration: underline;
+        }
+
+        /* 针对超小屏幕优化 */
+        @media (max-width: 350px) {
+            .container { padding: 15px; }
+            .header { font-size: 1.1rem; }
+            .price-row { font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">🔋 能量闪租自助终端</div>
+
+    <div class="price-card">
+        <div class="price-row"><span class="label">对方有U</span> 3.5 TRX = 1 笔能量</div>
+        <div class="price-row"><span class="label">对方无U</span> 7.0 TRX = 1 笔能量</div>
+    </div>
+
+    <div class="warn-box">
+        1. 向无U地址转账需要双倍能量。<br>
+        2. 请在 1 小时内转账，否则过期回收。
+    </div>
+
+    <div class="address-box">
+        <div style="font-size:0.85rem; margin-bottom:10px; font-weight:bold;">收款地址 (点击复制)</div>
+        <div class="address-display" id="address" onclick="copyAddr()">TB6EqDntqs8jHCsJPLfuPNafsxDmqPL4Wy</div>
+        <div class="qr-wrapper">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=TB6EqDntqs8jHCsJPLfuPNafsxDmqPL4Wy" alt="支付二维码">
+        </div>
+    </div>
+
+    <div class="tg-info">
+        更多能量闪租及会员开通请关注<br>
+        Telegram 机器人: <a href="https://t.me/funenglinagbot">@funenglinagbot</a>
+    </div>
+</div>
+
+<script>
+    function copyAddr() {
+        const addr = "TB6EqDntqs8jHCsJPLfuPNafsxDmqPL4Wy";
+        const el = document.createElement('textarea');
+        el.value = addr;
+        el.setAttribute('readonly', '');
+        el.style.position = 'absolute';
+        el.style.left = '-9999px';
+        document.body.appendChild(el);
+        el.select();
+        try {
+            document.execCommand('copy');
+            alert("地址已复制成功");
+        } catch (err) {
+            alert("复制失败，请手动长按复制");
+        }
+        document.body.removeChild(el);
+    }
+</script>
+
+</body>
+</html>
